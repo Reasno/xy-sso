@@ -1,0 +1,26 @@
+{
+    "name": "donews/xy-sso",
+    "description": "Xingyou single-sign-on",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Reasno",
+            "email": "guxi99@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Donews\\Stargame\\Providers\\SingleSignOnProvider"
+            ]
+        }
+    },    
+    "autoload": {
+        "psr-4": {
+            "Donews\\Stargame\\": "src/"
+        }
+    }
+}
