@@ -43,31 +43,31 @@ class SSOSDK
         }
     }
 
-        /**
-         * 获取错误信息
-         * @return string
-         */
+    /**
+     * 获取错误信息
+     * @return string
+     */
     public function getErrorMsg()
     {
         return $this->errorMsg;
     }
 
-        /**
-         * 生成request_token签名
-         * @param $t
-         * @return string
-         */
+    /**
+     * 生成request_token签名
+     * @param $t
+     * @return string
+     */
     protected function requestSign($t)
     {
         return md5($this->appId . substr($this->appKey, 0, 20) . $t);
     }
 
-        /**
-         * 生成登录url
-         * @param null $callback
-         * @param null $state
-         * @return string
-         */
+    /**
+     * 生成登录url
+     * @param null $callback
+     * @param null $state
+     * @return string
+     */
     public function getLoginUrl($callback = null, $state = null)
     {
         $t = time();
@@ -83,10 +83,10 @@ class SSOSDK
         return $url;
     }
 
-        /**
-         * 注销用户，跳到退出url
-         * @param null $to
-         */
+    /**
+     * 注销用户，跳到退出url
+     * @param null $to
+     */
     public function logout($to = null)
     {
         setcookie($this->ssoCookie, '', -1, '/', $this->domain, false, true);
@@ -98,11 +98,11 @@ class SSOSDK
         setcookie($this->ssoCookie, '', -1, '/', $this->domain, false, true);
     }
 
-        /**
-         * 获取登出url
-         * @param null $to
-         * @return string
-         */
+    /**
+     * 获取登出url
+     * @param null $to
+     * @return string
+     */
     public function getLogoutUrl($to = null)
     {
         $url = $this->ssoUrl . '/auth/logout';
@@ -112,13 +112,13 @@ class SSOSDK
         return $url;
     }
 
-        /**
-         * 根据apiName请求接口，返回结果集
-         * @param $apiName
-         * @param array $params
-         * @param string $token
-         * @return bool|mixed
-         */
+    /**
+     * 根据apiName请求接口，返回结果集
+     * @param $apiName
+     * @param array $params
+     * @param string $token
+     * @return bool|mixed
+     */
     public function request($apiName, $params = array(), $token = '')
     {
         $expires = time() + 600;
@@ -140,11 +140,11 @@ class SSOSDK
         return $result;
     }
 
-        /**
-         * 检测是否登录
-         * @param null $token
-         * @return bool
-         */
+    /**
+     * 检测是否登录
+     * @param null $token
+     * @return bool
+     */
     public function checkLogin($token = null)
     {
         if (!$token) {
@@ -162,12 +162,12 @@ class SSOSDK
         return $user;
     }
 
-        /**
-         * 获取当前登录用户信息
-         * @param $accessToken
-         * @param bool $login
-         * @return bool
-         */
+    /**
+     * 获取当前登录用户信息
+     * @param $accessToken
+     * @param bool $login
+     * @return bool
+     */
     public function getUserByAccessToken($accessToken, $login = true)
     {
         if (!$accessToken) {
@@ -188,12 +188,12 @@ class SSOSDK
         return $user;
     }
 
-        /**
-         * 获取当前登录用户信息（角色和等级）
-         * @param $accessToken
-         * @param bool $login
-         * @return bool
-         */
+    /**
+     * 获取当前登录用户信息（角色和等级）
+     * @param $accessToken
+     * @param bool $login
+     * @return bool
+     */
     public function getUserLevelByAccessToken($accessToken, $login = true)
     {
         if (!$accessToken) {
@@ -214,11 +214,11 @@ class SSOSDK
         return $user;
     }
 
-        /**
-         * 根据邮箱获取某个用户的信息
-         * @param $email
-         * @return bool
-         */
+    /**
+     * 根据邮箱获取某个用户的信息
+     * @param $email
+     * @return bool
+     */
     public function getUserByEmail($email)
     {
         $params = array(
@@ -232,17 +232,17 @@ class SSOSDK
         return $user;
     }
 
-        /**
-         * 根据邮箱获取某个用户的信息（角色和等级）
-         * @param $email
-         * @return bool
-         */
-    public function getUserLevelByEmail($email)
+    /**
+     * 根据用户id获取某个用户的信息（角色和等级）
+     * @param $email
+     * @return bool
+     */
+    public function getUserLevelByUserId($user_id)
     {
         $params = array(
-            'email' => $email,
+            'user_id' => $user_id,
         );
-        $result = $this->request('getUserLevelByEmail', $params);
+        $result = $this->request('getUserLevelByUserId', $params);
         if (!$this->checkResult($result, array('id', 'username', 'email', 'roles', 'site_levels'))) {
             return false;
         }
@@ -250,10 +250,10 @@ class SSOSDK
         return $user;
     }
 
-        /**
-         * 获取当前平台所有用户列表
-         * @return mixed
-         */
+    /**
+     * 获取当前平台所有用户列表
+     * @return mixed
+     */
     public function getUserList()
     {
         $result = $this->request('getUserList');
@@ -261,10 +261,10 @@ class SSOSDK
         return $user;
     }
 
-        /**
-         * 获取当前平台所有用户列表(包括角色和等级)
-         * @return mixed
-         */
+    /**
+     * 获取当前平台所有用户列表(包括角色和等级)
+     * @return mixed
+     */
     public function getUserLevelList()
     {
         $result = $this->request('getUserLevelList');
@@ -272,14 +272,14 @@ class SSOSDK
         return $user;
     }
 
-        /**
-         * 用户登录
-         * @param $email
-         * @param $password
-         * @param bool $remember
-         * @param bool $setCookie
-         * @return bool
-         */
+    /**
+     * 用户登录
+     * @param $email
+     * @param $password
+     * @param bool $remember
+     * @param bool $setCookie
+     * @return bool
+     */
     public function login($email, $password, $remember = false, $setCookie = true)
     {
         $params = array(
@@ -295,24 +295,17 @@ class SSOSDK
         }
         $user = $result['result'];
         if ($setCookie) {
-            setcookie(
-                $this->ssoCookie,
-                $user['token'],
-                isset($user['expire']) ? $user['expire'] : 0,
-                '/',
-                $this->domain,
-                false,
-                true
-            );
+            setcookie($this->ssoCookie, $user['token'], isset($user['expire'])
+                ? $user['expire'] : 0, '/', $this->domain, false, true);
         }
         return $user;
     }
 
-        /**
-         * 根据appId获取平台信息
-         * @param $id
-         * @return bool
-         */
+    /**
+     * 根据appId获取平台信息
+     * @param $id
+     * @return bool
+     */
     public function getApp($id)
     {
         $params = array(
@@ -326,12 +319,12 @@ class SSOSDK
         return $app;
     }
 
-        /**
-         * 修改当前登录用户手机号
-         * @param $mobile
-         * @param null $token
-         * @return bool
-         */
+    /**
+     * 修改当前登录用户手机号
+     * @param $mobile
+     * @param null $token
+     * @return bool
+     */
     public function setMobile($mobile, $token = null)
     {
         if (!$token) {
@@ -349,12 +342,12 @@ class SSOSDK
         return $user;
     }
 
-        /**
-         * 检测结果集字段
-         * @param $result
-         * @param null $fields
-         * @return bool
-         */
+    /**
+     * 检测结果集字段
+     * @param $result
+     * @param null $fields
+     * @return bool
+     */
     protected function checkResult($result, $fields = null)
     {
         if (!$result || $result['code'] != 0 || !isset($result['result'])) {
@@ -375,14 +368,14 @@ class SSOSDK
         return true;
     }
 
-        /**
-         * 生成签名
-         * @param $params
-         * @param $appToken
-         * @param $appKey
-         * @param $appExpires
-         * @return string
-         */
+    /**
+     * 生成签名
+     * @param $params
+     * @param $appToken
+     * @param $appKey
+     * @param $appExpires
+     * @return string
+     */
     public function makeSign($params, $appToken, $appKey, $appExpires)
     {
         return md5(
@@ -395,10 +388,10 @@ class SSOSDK
         );
     }
 
-        /**
-         * 拼接字符串
-         * @return string
-         */
+    /**
+     * 拼接字符串
+     * @return string
+     */
     public function concat()
     {
         $result = '';
@@ -408,54 +401,54 @@ class SSOSDK
         return $result;
     }
 
-        /**
-         * 生成http字符串
-         * @param $array
-         * @return string
-         */
+    /**
+     * 生成http字符串
+     * @param $array
+     * @return string
+     */
     public function makeQueryString($array)
     {
         return http_build_query($array);
     }
 
-        /**
-         * 数组排序
-         * @param $array
-         * @return mixed
-         */
+    /**
+     * 数组排序
+     * @param $array
+     * @return mixed
+     */
     public function sortNaturally($array)
     {
         ksort($array, SORT_STRING | SORT_NATURAL | SORT_FLAG_CASE); // 5.4以上
         return $array;
     }
 
-        /**
-         * url base64编码
-         * @param $str
-         * @return string
-         */
+    /**
+     * url base64编码
+     * @param $str
+     * @return string
+     */
     public function urlSafeBase64Encode($str)
     {
         return rtrim(strtr(base64_encode($str), '+/', '-_'), '=');
     }
 
-        /**
-         * url base64解码
-         * @param $str
-         * @return string
-         */
+    /**
+     * url base64解码
+     * @param $str
+     * @return string
+     */
     public function urlSafeBase64Decode($str)
     {
         return base64_decode(str_pad(strtr($str, '-_', '+/'), strlen($str) % 4, '=', STR_PAD_RIGHT));
     }
 
-        /**
-         * curl发送post请求
-         * @param $url
-         * @param array $param
-         * @param array $option
-         * @return bool|mixed
-         */
+    /**
+     * curl发送post请求
+     * @param $url
+     * @param array $param
+     * @param array $option
+     * @return bool|mixed
+     */
     public function curlPost($url, $param = array(), $option = array())
     {
         if (empty($url)) {
